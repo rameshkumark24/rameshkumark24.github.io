@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar Boss: Haggle Tycoon. Join the waitlist</title>
+<meta name="description" content="A free haggling game set in an Indian bazaar. No forced ads. Win by bargaining, in English, Tanglish or Hinglish. Join the waitlist.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bazaar Boss: Haggle Tycoon">
+<meta property="og:description" content="Free. No forced ads. Win by bargaining, in English, Tanglish or Hinglish.">
+<meta property="og:url" content="https://rameshkumark24.github.io/bazaar-boss/">
+<meta property="og:image" content="https://rameshkumark24.github.io/bazaar-boss/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#101b2b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23fcaa2b'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23101b2b' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='32' text-anchor='middle' font-family='Arial' font-weight='700' fill='%23101b2b'%3E%E2%82%B9%3C/text%3E%3C/svg%3E">
+<style>
+/* Design: docs/DESIGN.md (direction A, one fixed palette). Colours from docs/design/palette.py.
+   Spacing 4 8 12 16 24 32 48 · type 13 15 20 26 36 · weights 400 500 · radius 4 8 24 · one shadow. */
+:root{
+  --surface:#101b2b; --surface-raised:#1e293a; --surface-tonal:#323e50; --surface-tonal-pressed:#414e60;
+  --divider:#394353; --text:#f5f1ea; --text-muted:#b6becb; --text-disabled:#7f8792;
+  --accent:#fcaa2b; --accent-pressed:#e1901f; --on-accent:#101b2b;
+  --scene-awning:#dd6d45; --scene-paper:#f1e7d2; --scene-ink:#192230; --scene-counter:#70482b; --scene-brass:#cda448;
+  --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:400 15px/22px system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;color:var(--text);background:var(--surface)}
+a{color:var(--text)}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+.num{font-variant-numeric:tabular-nums}
+.awning{display:block;width:100%;height:34px}
+
+/* hero */
+.hero{padding:0 0 48px}
+.hero .wrap{padding-top:24px}
+.meta-line{margin:0 0 12px;color:var(--text-muted);font-size:13px;line-height:20px}
+h1{font-size:36px;line-height:40px;font-weight:500;letter-spacing:-0.01em;margin:0}
+.subtitle{display:block;font-size:20px;line-height:26px;font-weight:500;color:var(--text-muted);margin:8px 0 24px}
+.tagline{font-size:26px;line-height:30px;font-weight:500;margin:0 0 12px}
+.lede{margin:0 0 24px;color:var(--text-muted);max-width:34em}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:8px;border:0;font-family:inherit;font-weight:500;font-size:15px;line-height:20px;text-decoration:none;cursor:pointer;color:var(--text);background:var(--surface-tonal)}
+.btn:active{background:var(--surface-tonal-pressed);transform:scale(.97)}
+.btn.primary{min-height:52px;background:var(--accent);color:var(--on-accent)}
+.btn.primary:active{background:var(--accent-pressed)}
+.btn[aria-disabled="true"],.btn:disabled{background:var(--surface-tonal);color:var(--text-disabled);cursor:default;transform:none}
+:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+
+section{padding:48px 0;border-top:1px solid var(--divider)}
+h2{font-size:26px;line-height:30px;font-weight:500;margin:0 0 12px}
+.sub{margin:0 0 24px;color:var(--text-muted)}
+
+/* promise: a plain list with dividers */
+.promise ul{list-style:none;padding:0;margin:0}
+.promise li{padding:12px 0;border-top:1px solid var(--divider)}
+.promise li:first-child{border-top:0;padding-top:0}
+.promise li strong{display:block;font-weight:500}
+.promise li span{color:var(--text-muted)}
+
+/* voice: a segmented control, radius 8 */
+.voices{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.voices button{font-family:inherit;font-weight:500;font-size:15px;line-height:20px;min-height:48px;padding:0 16px;border-radius:8px;border:1px solid transparent;background:var(--surface-tonal);color:var(--text);cursor:pointer}
+.voices button[aria-checked="true"]{border-color:var(--text)}
+
+/* the demo: an honest sketch of the haggle, no device bezel */
+.demo{max-width:360px;background:var(--surface-raised);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:560px}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:13px;line-height:20px;color:var(--text-muted)}
+.cash{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--text)}
+.cash svg{width:16px;height:16px}
+.customer{display:flex;gap:12px;padding:12px 16px 8px;align-items:center}
+.face{width:96px;height:96px;flex:none}
+.who{font-size:13px;line-height:20px;color:var(--text-muted);margin:0}
+.mood{font-weight:500;font-size:15px;line-height:20px;margin:0}
+.reason{font-size:15px;line-height:22px;color:var(--text-muted);margin:0}
+.patience{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:13px;line-height:20px;color:var(--text-muted)}
+.pip{width:10px;height:10px;border-radius:4px;background:var(--text)}
+.pip.off{background:transparent;border:1.5px solid var(--text-muted)}
+.line-said{margin:8px 16px 0;font-size:20px;line-height:26px;font-weight:500;min-height:52px}
+.item{display:flex;gap:12px;align-items:center;margin:16px 16px 12px;padding:8px 12px;background:var(--surface-tonal);border-radius:8px}
+.item svg{width:40px;height:54px;flex:none}
+.item p{margin:0;font-size:13px;line-height:20px;color:var(--text-muted)}
+.item b{font-size:15px;font-weight:500;color:var(--text)}
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 16px}
+.price{padding:8px 12px;border-radius:8px;background:var(--scene-paper);color:var(--scene-ink)}
+.price small{display:block;font-size:13px;line-height:20px}
+.price b{font-size:26px;line-height:30px;font-weight:500;font-variant-numeric:tabular-nums}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px;margin-top:auto}
+.controls button{font-family:inherit;font-weight:500;font-size:15px;line-height:20px;min-height:48px;padding:0 4px;border-radius:8px;border:0;background:var(--surface-tonal);color:var(--text);cursor:pointer}
+.controls button:active{background:var(--surface-tonal-pressed)}
+.controls button:disabled{color:var(--text-disabled);cursor:default}
+.controls .wide{grid-column:span 2}
+.controls button.next{background:var(--surface-tonal-pressed);border:1px solid var(--text)}
+.result{margin:16px;margin-top:auto;background:var(--surface);border-radius:24px;padding:24px}
+.result h3{margin:0;font-size:20px;line-height:26px;font-weight:500}
+.result p{margin:8px 0 0}
+.result .truth{color:var(--text-muted)}
+.result .btn{margin-top:16px}
+.sketch-note{font-size:13px;line-height:20px;color:var(--text-muted);margin:12px 0 0;max-width:360px}
+
+/* the same moment, three voices */
+.lines{list-style:none;padding:0;margin:0}
+.line{margin:0;padding:12px;border:1px solid transparent;border-radius:8px}
+.line figcaption{font-size:13px;line-height:20px;color:var(--text-muted)}
+.line blockquote{margin:4px 0 0;font-size:20px;line-height:26px;font-weight:500}
+.line.on{border-color:var(--text)}
+
+/* waitlist */
+.fine{font-size:13px;line-height:20px;color:var(--text-muted);max-width:32em;margin:12px 0 0}
+
+footer{padding:32px 0 48px;font-size:13px;line-height:20px;color:var(--text-muted);border-top:1px solid var(--divider)}
+footer p{margin:0 0 8px}
+footer a{color:var(--text-muted)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="awning" viewBox="0 0 360 34" preserveAspectRatio="none" aria-hidden="true">
+    <rect x="0" y="0" width="360" height="22" fill="#f1e7d2"/>
+    <g fill="#dd6d45">
+      <rect x="0" y="0" width="30" height="22"/><rect x="60" y="0" width="30" height="22"/><rect x="120" y="0" width="30" height="22"/>
+      <rect x="180" y="0" width="30" height="22"/><rect x="240" y="0" width="30" height="22"/><rect x="300" y="0" width="30" height="22"/>
+      <path d="M0 22 a15 12 0 0 0 30 0z"/><path d="M60 22 a15 12 0 0 0 30 0z"/><path d="M120 22 a15 12 0 0 0 30 0z"/>
+      <path d="M180 22 a15 12 0 0 0 30 0z"/><path d="M240 22 a15 12 0 0 0 30 0z"/><path d="M300 22 a15 12 0 0 0 30 0z"/>
+    </g>
+    <g fill="#f1e7d2">
+      <path d="M30 22 a15 12 0 0 0 30 0z"/><path d="M90 22 a15 12 0 0 0 30 0z"/><path d="M150 22 a15 12 0 0 0 30 0z"/>
+      <path d="M210 22 a15 12 0 0 0 30 0z"/><path d="M270 22 a15 12 0 0 0 30 0z"/><path d="M330 22 a15 12 0 0 0 30 0z"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <p class="meta-line">For Android. India first. Coming in 2027.</p>
+    <h1>Bazaar Boss</h1>
+    <span class="subtitle">Haggle Tycoon</span>
+    <p class="tagline">Free. No forced ads. Win by bargaining.</p>
+    <p class="lede">A haggling game set in an Indian bazaar. Bid at kabadi auctions, spot the fakes, and bargain face to face with customers who hide their price but show their mood. Grow a footpath stall into a shop.</p>
+    <a class="btn" href="#waitlist">Go to the waitlist</a>
+  </div>
+</header>
+
+<main>
+  <section class="promise">
+    <div class="wrap">
+      <h2>The promise</h2>
+      <ul>
+        <li><strong>It never makes you watch an ad to keep playing.</strong> <span>If there's ever an ad, it's one you chose to tap. Skip it and you lose nothing.</span></li>
+        <li><strong>No gold, no energy bars, no pay-or-wait walls.</strong> <span>You get ahead by bargaining well.</span></li>
+        <li><strong>Fair you can see.</strong> <span>After every deal, find out what they'd really have taken.</span></li>
+        <li><strong>Plays offline.</strong> <span>No sign-up, no account.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="try" aria-labelledby="try-h">
+    <div class="wrap">
+      <h2 id="try-h">Try a haggle</h2>
+      <p class="sub">A walk-in seller has a brass lamp. Tap the highlighted button to play one deal.</p>
+
+      <div class="voices" role="radiogroup" aria-label="Voice">
+        <button type="button" role="radio" aria-checked="true" data-voice="en">English</button>
+        <button type="button" role="radio" aria-checked="false" data-voice="ta">Tanglish</button>
+        <button type="button" role="radio" aria-checked="false" data-voice="hi">Hinglish</button>
+      </div>
+
+      <div class="demo" id="screen">
+        <div class="topbar">
+          <span>Day 1, Coimbatore</span>
+          <span class="cash">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="#fcaa2b"/><circle cx="10" cy="10" r="6.5" fill="none" stroke="#101b2b" stroke-width="1.5"/></svg>
+            <span id="cash" class="num">₹2,500</span>
+          </span>
+        </div>
+
+        <div class="customer">
+          <svg class="face" viewBox="0 0 120 120" role="img" aria-labelledby="mood">
+            <circle cx="60" cy="60" r="58" fill="#323e50"/>
+            <path d="M18 120 Q22 92 60 90 Q98 92 102 120Z" fill="#dd6d45"/>
+            <path d="M70 92 Q92 94 98 120 L84 120 Q80 100 66 96Z" fill="#f1e7d2"/>
+            <rect x="52" y="80" width="16" height="12" rx="4" fill="#996341"/>
+            <ellipse cx="33" cy="60" rx="5" ry="8" fill="#996341"/>
+            <ellipse cx="87" cy="60" rx="5" ry="8" fill="#996341"/>
+            <ellipse cx="60" cy="58" rx="27" ry="31" fill="#b77d56"/>
+            <path d="M34 50 Q36 24 60 24 Q84 24 86 50 Q80 36 60 35 Q40 36 34 50Z" fill="#291f18"/>
+            <path d="M33 52 Q31 42 37 38 L38 54Z M87 52 Q89 42 83 38 L82 54Z" fill="#8a847c"/>
+            <g fill="none" stroke="#291f18" stroke-width="2.2">
+              <circle cx="47" cy="58" r="8"/><circle cx="73" cy="58" r="8"/><path d="M55 58 Q60 55 65 58"/>
+            </g>
+            <circle cx="47" cy="58" r="2.8" fill="#291f18"/><circle cx="73" cy="58" r="2.8" fill="#291f18"/>
+            <line id="browL" x1="40" y1="46" x2="53" y2="44" stroke="#291f18" stroke-width="3.5" stroke-linecap="round"/>
+            <line id="browR" x1="67" y1="44" x2="80" y2="46" stroke="#291f18" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M60 62 Q57 69 60 71 Q63 69 60 62" fill="#754932"/>
+            <path d="M44 75 Q52 69 60 73 Q68 69 76 75 Q68 78 60 76 Q52 78 44 75Z" fill="#291f18"/>
+            <path id="mouth" d="M50 80 Q60 86 70 80" fill="none" stroke="#291f18" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <p class="who">Walk-in seller, emotional</p>
+            <p class="mood" id="mood">Hopeful</p>
+            <p class="reason" id="reason">Expects your best price</p>
+            <div class="patience" aria-label="Patience"><span>Patience</span>
+              <i class="pip"></i><i class="pip"></i><i class="pip"></i><i class="pip"></i>
+            </div>
+          </div>
+        </div>
+
+        <p class="line-said" id="bubble" aria-live="polite">…</p>
+
+        <div class="item">
+          <svg viewBox="0 0 40 54" aria-hidden="true">
+            <path d="M12 9 Q20 0 28 9" fill="none" stroke="#cda448" stroke-width="2"/>
+            <rect x="13" y="8" width="14" height="5" rx="2" fill="#cda448"/>
+            <path d="M12 14 Q8 26 12 37 L28 37 Q32 26 28 14Z" fill="#f1e7d2" stroke="#cda448" stroke-width="2"/>
+            <line x1="20" y1="14" x2="20" y2="37" stroke="#cda448" stroke-width="1.2"/>
+            <ellipse cx="20" cy="42" rx="14" ry="6" fill="#cda448"/>
+            <rect x="7" y="46" width="26" height="5" rx="2" fill="#cda448"/>
+          </svg>
+          <div>
+            <b>Brass lamp</b>
+            <p>Good condition. Clue: heavy for its size</p>
+          </div>
+        </div>
+
+        <div class="prices" id="prices">
+          <div class="price"><small>He asks</small><b id="ask">₹800</b></div>
+          <div class="price"><small>You offer</small><b id="offer">Not yet</b></div>
+        </div>
+
+        <div class="controls" id="controls">
+          <button type="button" disabled>−10%</button>
+          <button type="button" disabled>−25%</button>
+          <button type="button" data-act="last" disabled>Last price?</button>
+          <button type="button" data-act="walk" disabled>Walk away</button>
+          <button type="button" data-act="offer" class="wide" disabled>Offer ₹300</button>
+        </div>
+
+        <div class="result" id="result" hidden>
+          <h3>Deal done</h3>
+          <p>You paid <b class="num">₹450</b> for the lamp.</p>
+          <p class="truth">He'd have gone to ₹420. You left ₹30 on the table.</p>
+          <button type="button" class="btn" id="again">Play it again</button>
+        </div>
+      </div>
+      <p class="sketch-note">A sketch of the haggle, drawn for this page. The game is in development, so this isn't a screenshot. All ₹ here is game money.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="voice-h">
+    <div class="wrap">
+      <h2 id="voice-h">Pick your voice</h2>
+      <p class="sub">Every character can talk to you in English, Tanglish or Hinglish. The same moment, three ways:</p>
+      <div class="lines">
+        <figure class="line" data-voice="en">
+          <figcaption>English</figcaption>
+          <blockquote lang="en">“Okay, okay, come back! ₹450, final. Only for you.”</blockquote>
+        </figure>
+        <figure class="line" data-voice="ta">
+          <figcaption>Tanglish</figcaption>
+          <blockquote lang="ta-Latn">“Okay okay, vaanga! ₹450 final, ungalukku mattum.”</blockquote>
+        </figure>
+        <figure class="line" data-voice="hi">
+          <figcaption>Hinglish</figcaption>
+          <blockquote lang="hi-Latn">“Achha theek hai, aao! ₹450 final, sirf aapke liye.”</blockquote>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="waitlist" aria-labelledby="wl-h">
+    <div class="wrap">
+      <h2 id="wl-h">Join the waitlist</h2>
+      <p class="sub">We ask for two things: your email, and which voice you'd play in.</p>
+      <a class="btn primary" id="join" href="#waitlist" aria-disabled="true">Waitlist opens soon</a>
+      <p class="fine">We'll send one email when the game launches on Google Play, or one saying it won't. Then we delete the list.<span id="contact-line" hidden> Want off sooner? Email <a id="contact" href="#"></a>.</span></p>
+      <p class="fine">For players 18 and over.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Made by one independent developer in India.</p>
+    <p>This page sets no cookies, has no trackers and loads nothing from other sites. GitHub, which hosts it, logs visitors' IP addresses for security. The waitlist form runs on Google Forms, so <a href="https://policies.google.com/privacy">Google's privacy policy</a> applies there.</p>
+  </div>
+</footer>
+
+<script>
+// ---- Fill these two in before you share the link (see site/README.md) ----
+var CONFIG = {
+  formUrl: "https://forms.gle/KGxi4apVkGwpkabMA",   // the waitlist form, published 2026-11-25
+  contactEmail: "rameshkumaroff@gmail.com"   // the game's contact email: the owner's own Gmail (PRD CR12, decided 2026-11-25)
+};
+// --------------------------------------------------------------------------
+
+(function () {
+  var join = document.getElementById("join");
+  if (/^https:\/\/(forms\.gle|docs\.google\.com)\//.test(CONFIG.formUrl)) {
+    join.href = CONFIG.formUrl;
+    join.target = "_blank";
+    join.rel = "noopener noreferrer";
+    join.removeAttribute("aria-disabled");
+    join.textContent = "Join the waitlist";
+  } else {
+    join.addEventListener("click", function (e) { e.preventDefault(); });
+  }
+  if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(CONFIG.contactEmail)) {
+    var c = document.getElementById("contact");
+    c.href = "mailto:" + CONFIG.contactEmail + "?subject=" + encodeURIComponent("Remove me from the Bazaar Boss waitlist");
+    c.textContent = CONFIG.contactEmail;
+    document.getElementById("contact-line").hidden = false;
+  }
+
+  var LINES = {
+    en: ["Pure brass lamp, sir. ₹800 only.",
+         "₹300?! Sir, this is solid brass, not a toy!",
+         "Last price? For you… ₹600. Not a rupee less.",
+         "Okay, okay, come back! ₹450, final. Only for you.",
+         "Good choice, sir. Take care of it!"],
+    ta: ["Pure brass vilakku sir. ₹800 dhaan.",
+         "₹300-aa?! Sir, idhu solid brass, vilayaattu saamaan illa!",
+         "Last price-aa? Ungalukkaga ₹600. Oru rooba kooda koraiyaadhu.",
+         "Okay okay, vaanga! ₹450 final, ungalukku mattum.",
+         "Nalla choice sir. Nalla paathukonga!"],
+    hi: ["Asli brass ka lamp hai, sir. Sirf ₹800.",
+         "₹300?! Sir, solid brass hai, khilauna nahi!",
+         "Last price? Aapke liye ₹600. Ek rupaya bhi kam nahi.",
+         "Achha theek hai, aao! ₹450 final, sirf aapke liye.",
+         "Badhiya choice, sir. Sambhaal ke rakhna!"]
+  };
+  var LANG = { en: "en", ta: "ta-Latn", hi: "hi-Latn" };
+  var FACES = {
+    hopeful: { l: [40, 46, 53, 44], r: [67, 44, 80, 46], m: "M50 80 Q60 86 70 80" },
+    annoyed: { l: [40, 44, 54, 50], r: [66, 50, 80, 44], m: "M50 83 Q60 77 70 83" },
+    firm:    { l: [40, 49, 54, 49], r: [66, 49, 80, 49], m: "M51 81 L69 81" },
+    rushed:  { l: [40, 49, 54, 43], r: [66, 43, 80, 49], m: "M54 80 Q60 87 66 80 Q60 77 54 80Z" },
+    pleased: { l: [40, 45, 53, 43], r: [67, 43, 80, 45], m: "M47 79 Q60 91 73 79" }
+  };
+  var BEATS = [
+    { face: "hopeful", mood: "Hopeful", reason: "Expects your best price",          pat: 4, ask: "₹800", offer: "Not yet", cash: "₹2,500", next: "offer" },
+    { face: "annoyed", mood: "Annoyed", reason: "₹300 felt like an insult",         pat: 2, ask: "₹800", offer: "₹300", cash: "₹2,500", next: "last" },
+    { face: "firm",    mood: "Firm",    reason: "Testing whether you'll walk",      pat: 1, ask: "₹600", offer: "₹300", cash: "₹2,500", next: "walk" },
+    { face: "rushed",  mood: "Rushed",  reason: "Wants the day's first sale",       pat: 1, ask: "₹450", offer: "₹300", cash: "₹2,500", next: "deal" },
+    { face: "pleased", mood: "Pleased", reason: "A fair deal, and he knows it",      pat: 1, ask: "₹450", offer: "₹450", cash: "₹2,050", next: null }
+  ];
+
+  var voice = "en", beat = 0;
+  var params = new URLSearchParams(location.search);
+  var v = (params.get("voice") || "").toLowerCase();
+  if (v === "ta" || v === "tanglish") voice = "ta";
+  if (v === "hi" || v === "hinglish") voice = "hi";
+  var b = parseInt(params.get("beat"), 10);           // for screenshots: ?beat=0..4
+  if (b >= 0 && b < BEATS.length) beat = b;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var pips = document.querySelectorAll(".pip");
+  var buttons = document.querySelectorAll("#controls button");
+  var offerBtn = document.querySelector('[data-act="offer"]');
+
+  function setLine(el, c) { el.setAttribute("x1", c[0]); el.setAttribute("y1", c[1]); el.setAttribute("x2", c[2]); el.setAttribute("y2", c[3]); }
+
+  function render() {
+    var s = BEATS[beat], f = FACES[s.face];
+    setLine($("browL"), f.l); setLine($("browR"), f.r);
+    $("mouth").setAttribute("d", f.m);
+    $("mouth").setAttribute("fill", s.face === "rushed" ? "#291f18" : "none");
+    $("mood").textContent = s.mood;
+    $("reason").textContent = s.reason;
+    for (var i = 0; i < pips.length; i++) pips[i].className = i < s.pat ? "pip" : "pip off";
+    $("bubble").textContent = "“" + LINES[voice][beat] + "”";
+    $("bubble").lang = LANG[voice];
+    $("ask").textContent = s.ask;
+    $("offer").textContent = s.offer;
+    $("cash").textContent = s.cash;
+    offerBtn.textContent = beat >= 3 ? "Deal at ₹450" : "Offer ₹300";
+    for (var j = 0; j < buttons.length; j++) {
+      var act = buttons[j].getAttribute("data-act");
+      var isNext = act && (act === s.next || (act === "offer" && s.next === "deal"));
+      buttons[j].disabled = !isNext;
+      buttons[j].classList.toggle("next", !!isNext);
+    }
+    var done = s.next === null;
+    $("controls").hidden = done;
+    $("prices").hidden = done;
+    $("result").hidden = !done;
+    var vb = document.querySelectorAll(".voices button");
+    for (var k = 0; k < vb.length; k++) vb[k].setAttribute("aria-checked", vb[k].getAttribute("data-voice") === voice ? "true" : "false");
+    var lines = document.querySelectorAll(".line");
+    for (var n = 0; n < lines.length; n++) lines[n].classList.toggle("on", lines[n].getAttribute("data-voice") === voice);
+  }
+
+  $("controls").addEventListener("click", function (e) {
+    var t = e.target.closest("button");
+    if (!t || t.disabled) return;
+    beat = Math.min(beat + 1, BEATS.length - 1);
+    render();
+    var nxt = document.querySelector("#controls button.next");
+    if (nxt) nxt.focus(); else $("again").focus();
+  });
+  $("again").addEventListener("click", function () { beat = 0; render(); });
+  document.querySelector(".voices").addEventListener("click", function (e) {
+    var t = e.target.closest("button[data-voice]");
+    if (!t) return;
+    voice = t.getAttribute("data-voice");
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
